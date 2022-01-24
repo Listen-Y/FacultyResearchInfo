@@ -4,3 +4,8 @@ spring:
     url: jdbc:mysql://localhost:3306/faculty_research_info_mis?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
     username: root
     password: listen
+
+server:
+  port: 9090
+  servlet:
+    context-path: /faculty_research_info_mis

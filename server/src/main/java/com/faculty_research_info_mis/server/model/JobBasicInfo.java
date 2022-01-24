@@ -22,7 +22,7 @@ public class JobBasicInfo {
      *主键id
      */
     @TableId(type = IdType.AUTO)
-    private int Id;
+    private Integer Id;
 
     /**
      *任职资格名称

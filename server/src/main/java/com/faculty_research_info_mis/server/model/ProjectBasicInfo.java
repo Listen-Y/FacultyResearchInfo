@@ -22,7 +22,7 @@ public class ProjectBasicInfo {
      * 自增主键
      */
     @TableId(type = IdType.AUTO)
-    private int Id;
+    private Integer Id;
 
     /**
      *项目名称

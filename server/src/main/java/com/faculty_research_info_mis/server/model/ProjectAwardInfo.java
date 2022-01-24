@@ -22,7 +22,7 @@ public class ProjectAwardInfo {
      * 自增主键
      */
     @TableId(type = IdType.AUTO)
-    private int Id;
+    private Integer Id;
 
     /**
      *获奖项目名称

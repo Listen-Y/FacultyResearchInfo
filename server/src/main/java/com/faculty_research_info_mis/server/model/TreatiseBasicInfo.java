@@ -21,7 +21,7 @@ public class TreatiseBasicInfo {
      *自增主键
      */
     @TableId(type = IdType.AUTO)
-    private int Id;
+    private Integer Id;
 
     /**
      *论著名称

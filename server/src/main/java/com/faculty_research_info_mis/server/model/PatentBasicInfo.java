@@ -21,7 +21,7 @@ public class PatentBasicInfo {
      * 主键id
      */
     @TableId(type = IdType.AUTO)
-    private int Id;
+    private Integer Id;
 
     /**
      *专利名称

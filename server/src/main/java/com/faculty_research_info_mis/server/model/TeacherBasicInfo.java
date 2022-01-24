@@ -23,7 +23,7 @@ public class TeacherBasicInfo {
      *主键ID
      */
     @TableId(type = AUTO)
-    private int Id;
+    private Integer Id;
 
     /**
      *职工号

@@ -22,7 +22,7 @@ public class RewardBasicInfo {
      *主键ID
      */
     @TableId(type = IdType.AUTO)
-    private int Id;
+    private Integer Id;
 
     /**
      *获奖项目
