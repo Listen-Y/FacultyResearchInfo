@@ -93,5 +93,17 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:5.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:5.6.1" level="project" />
+    <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-boot-starter:3.5.0" level="project" />
+    <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus:3.5.0" level="project" />
+    <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-extension:3.5.0" level="project" />
+    <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-core:3.5.0" level="project" />
+    <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-annotation:3.5.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.jsqlparser:jsqlparser:4.3" level="project" />
+    <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.5.9" level="project" />
+    <orderEntry type="library" name="Maven: org.mybatis:mybatis-spring:2.0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-jdbc:2.6.2" level="project" />
+    <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:4.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.3.14" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.14" level="project" />
   </component>
 </module>
