@@ -1,12 +1,12 @@
-package com.faculty_research_info_mis.server.component;
+package com.faculty_research_info_mis.server.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.faculty_research_info_mis.server.component.SeverException;
 import com.faculty_research_info_mis.server.mapper.UserMapper;
 import com.faculty_research_info_mis.server.model.User;
-import com.faculty_research_info_mis.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 

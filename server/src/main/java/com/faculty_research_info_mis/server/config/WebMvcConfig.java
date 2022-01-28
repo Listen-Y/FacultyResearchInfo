@@ -1,6 +1,5 @@
 package com.faculty_research_info_mis.server.config;
 
-import com.faculty_research_info_mis.server.component.AuthInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -8,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
+ * webMvc配置
  * Created with IntelliJ IDEA.
  * Description: If you don't work hard, you will be a loser.
  * User: Listen-Y.
