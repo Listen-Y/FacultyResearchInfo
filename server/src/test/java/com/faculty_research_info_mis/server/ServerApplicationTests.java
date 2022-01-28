@@ -115,8 +115,14 @@ class ServerApplicationTests {
         teacherBasicInfo.setUpdateDate(new Date(new java.util.Date().getTime()));
 
 
+
         teacherBasicInfoMapper.insert(teacherBasicInfo);
     }
+
+
+
+
+
 
     @Test
     void test() throws ParseException {
