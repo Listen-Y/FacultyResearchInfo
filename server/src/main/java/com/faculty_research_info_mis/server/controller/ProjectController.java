@@ -5,8 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.faculty_research_info_mis.server.component.Result;
+import com.faculty_research_info_mis.server.model.ProjectBasicInfo;
 import com.faculty_research_info_mis.server.model.TreatiseBasicInfo;
-import com.faculty_research_info_mis.server.service.TreatiseBasicInfoService;
+import com.faculty_research_info_mis.server.service.ProjectBasicInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,65 +16,66 @@ import org.springframework.web.bind.annotation.*;
  * Description: If you don't work hard, you will be a loser.
  * User: Listen-Y.
  * Date: 2022-01-30
- * Time: 17:17
+ * Time: 17:38
  */
 @RestController
-@RequestMapping("/treatise")
-public class TreatiseController {
+@RequestMapping("/project")
+public class ProjectController {
 
-    private final TreatiseBasicInfoService service;
 
-    public TreatiseController(TreatiseBasicInfoService service) {
+    private final ProjectBasicInfoService service;
+
+    public ProjectController(ProjectBasicInfoService service) {
         this.service = service;
     }
 
     /**
-     * 添加论著信息
-     * @param treatiseBasicInfo
+     * 添加project信息
+     * @param projectBasicInfo
      * @return
      */
     @PostMapping("/add")
-    public Result<?> addTreatiseInfo(@RequestBody TreatiseBasicInfo treatiseBasicInfo) {
-        service.treatiseBasicInfoMapper.insert(treatiseBasicInfo);
+    public Result<?> addProjectInfo(@RequestBody ProjectBasicInfo projectBasicInfo) {
+        service.projectBasicInfoMapper.insert(projectBasicInfo);
         return Result.success();
     }
 
     /**
-     * 删除论著信息
+     * 删除project信息
      * @param id
      * @return
      */
     @DeleteMapping("/{id}")
-    public Result<?> deleteTreatise(@PathVariable Integer id) {
+    public Result<?> deleteProject(@PathVariable Integer id) {
         // TODO: 2022/1/30 删除系列
-        service.treatiseBasicInfoMapper.deleteById(id);
+        service.projectBasicInfoMapper.deleteById(id);
         return Result.success();
     }
 
     /**
-     * 修改论著信息
-     * @param treatiseBasicInfo
+     * 修改project信息
+     * @param projectBasicInfo
      * @return
      */
     @PostMapping("/update")
-    public Result<?> update(@RequestBody TreatiseBasicInfo treatiseBasicInfo) {
-        service.treatiseBasicInfoMapper.updateById(treatiseBasicInfo);
+    public Result<?> update(@RequestBody ProjectBasicInfo projectBasicInfo) {
+        service.projectBasicInfoMapper.updateById(projectBasicInfo);
         return Result.success();
     }
 
     /**
-     * 由id查找对应论著的具体信息
+     * 由id查找对应project的具体信息
      * @param id
      * @return
      */
     @GetMapping("/{id}")
     public Result<?> getById(@PathVariable Integer id) {
-        TreatiseBasicInfo treatiseBasicInfo = service.treatiseBasicInfoMapper.selectById(id);
-        return Result.success(treatiseBasicInfo);
+        ProjectBasicInfo projectBasicInfo = service.projectBasicInfoMapper.selectById(id);
+        return Result.success(projectBasicInfo);
     }
 
     /**
-     * 分页获取所有论著数据
+     * 分页获取所有project数据
      * @param pageNum
      * @param pageSize
      * @return
@@ -81,8 +83,8 @@ public class TreatiseController {
     @GetMapping
     public Result<?> getPage(@RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize) {
-        LambdaQueryWrapper<TreatiseBasicInfo> wrapper = Wrappers.lambdaQuery();
-        Page<TreatiseBasicInfo> selectPage = service.treatiseBasicInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
+        LambdaQueryWrapper<ProjectBasicInfo> wrapper = Wrappers.lambdaQuery();
+        Page<ProjectBasicInfo> selectPage = service.projectBasicInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
         return Result.success(selectPage);
     }
 
@@ -97,11 +99,11 @@ public class TreatiseController {
     public Result<?> getLikePage(@RequestParam(defaultValue = "1") Integer pageNum,
                                  @RequestParam(defaultValue = "10") Integer pageSize,
                                  @RequestParam(defaultValue = "") String search) {
-        LambdaQueryWrapper<TreatiseBasicInfo> wrapper = Wrappers.lambdaQuery();
+        LambdaQueryWrapper<ProjectBasicInfo> wrapper = Wrappers.lambdaQuery();
         if (StrUtil.isNotBlank(search)) {
-            wrapper.like(TreatiseBasicInfo::getName, search);
+            wrapper.like(ProjectBasicInfo::getName, search);
         }
-        Page<TreatiseBasicInfo> BookPage = service.treatiseBasicInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
+        Page<ProjectBasicInfo> BookPage = service.projectBasicInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
         return Result.success(BookPage);
     }
 }
