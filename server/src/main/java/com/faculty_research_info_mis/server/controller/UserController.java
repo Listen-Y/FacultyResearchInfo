@@ -2,11 +2,14 @@ package com.faculty_research_info_mis.server.controller;
 
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.faculty_research_info_mis.server.component.Result;
+import com.faculty_research_info_mis.server.model.TeacherBasicInfo;
 import com.faculty_research_info_mis.server.model.User;
 import com.faculty_research_info_mis.server.service.UserService;
 import com.faculty_research_info_mis.server.util.TokenUtil;
@@ -128,8 +131,13 @@ public class UserController {
      * @return
      */
     @GetMapping("/all")
-    public Result<?> findAll() {
-        log.info("find all user");
-        return Result.success(userService.userMapper.selectList(null));
+    public Result<?> findAll(@RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "10") Integer pageSize) {
+
+        log.info("get user page param: " + pageNum + " " + pageSize);
+
+        LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery();
+        Page<User> selectPage = userService.userMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
+        return Result.success(selectPage);
     }
 }
