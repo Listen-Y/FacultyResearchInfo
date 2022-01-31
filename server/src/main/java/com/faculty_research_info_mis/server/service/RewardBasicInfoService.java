@@ -1,5 +1,6 @@
 package com.faculty_research_info_mis.server.service;
 
+import com.faculty_research_info_mis.server.mapper.RewardBasicInfoMapper;
 import com.faculty_research_info_mis.server.mapper.TeacherBasicInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class RewardBasicInfoService {
 
-    public final TeacherBasicInfoMapper teacherBasicInfoMapper;
+    public final RewardBasicInfoMapper rewardBasicInfoMapper;
 
     @Autowired
-    public RewardBasicInfoService(TeacherBasicInfoMapper teacherBasicInfoMapper) {
-        this.teacherBasicInfoMapper = teacherBasicInfoMapper;
+    public RewardBasicInfoService(RewardBasicInfoMapper rewardBasicInfoMapper) {
+        this.rewardBasicInfoMapper = rewardBasicInfoMapper;
     }
 }
