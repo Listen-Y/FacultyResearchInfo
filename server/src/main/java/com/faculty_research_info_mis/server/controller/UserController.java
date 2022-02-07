@@ -47,6 +47,9 @@ public class UserController {
 
         log.info("login param: " + userParam.toString());
         User userSelect = userService.userMapper.selectByName(userParam.getUserName());
+        if (userSelect == null) {
+            return Result.error("9999", "用户名或密码错误");
+        }
 
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_name", userParam.getUserName());

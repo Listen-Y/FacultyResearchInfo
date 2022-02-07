@@ -6,7 +6,7 @@
                     <div style="font-size: 30px; text-align: center; padding: 30px 0; color: #333">欢迎登录</div>
                     <el-form ref="form" :model="form" size="normal" :rules="rules">
                         <el-form-item prop="username">
-                            <el-input prefix-icon="el-icon-user-solid" v-model="form.username" placeholder="请输入账号"></el-input>
+                            <el-input prefix-icon="el-icon-user-solid" v-model="form.userName" placeholder="请输入账号"></el-input>
                         </el-form-item>
                         <el-form-item prop="password">
                             <el-input prefix-icon="el-icon-lock" v-model="form.password" show-password placeholder="请输入密码"></el-input>
@@ -38,11 +38,11 @@
             return {
                 fixStyle: '',
                 form: {
-                    username: '',
-                    password: ''
+                    userName: 'admin',
+                    password: 'admin'
                 },
                 rules: {
-                    username: [
+                    userName: [
                         {required: true, message: '请输入用户名', trigger: 'blur'},
                     ],
                     password: [
@@ -64,8 +64,7 @@
                                 sessionStorage.setItem("user", JSON.stringify(res.data))  // 缓存用户信息
 
                                 // 登录成功的时候更新当前路由
-                                //activeRouter()
-                                this.$router.push("/")  //登录成功之后进行页面的跳转，跳转到主页
+                                this.$router.push("/home")  //登录成功之后进行页面的跳转，跳转到主页
 
                             } else {
                                 this.$message({

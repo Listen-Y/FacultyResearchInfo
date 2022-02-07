@@ -1,5 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Login from "../components/Login";
+import Home from "../components/Home";
+import Demo from "../components/Demo";
 
 const routes = [
   {
@@ -14,6 +16,23 @@ const routes = [
     meta: {
       title: '登陆'
     }
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: Home,
+    meta: {
+      title: '菜单页'
+    },
+    children: [
+      {
+        path: '/1',
+        component: Demo,
+        meta: {
+          title: 'Demo'
+        }
+      }
+    ]
   }
 ]
 
