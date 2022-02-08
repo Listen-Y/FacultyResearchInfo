@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import request from "@/utils/request";
-
 export default {
   name: "Aside",
   data() {
@@ -26,14 +24,56 @@ export default {
           "id": 1,
           "path": "/1",
           "icon": "el-icon-menu",
-          "comment": "aa"
+          "comment": "用户权限管理"
         },
         {
           "id": 2,
           "path": "/2",
           "icon": "el-icon-menu",
-          "comment": "aaa"
-        }
+          "comment": "教师基本信息"
+        },
+        {
+          "id": 3,
+          "path": "/2",
+          "icon": "el-icon-menu",
+          "comment": "职务基本信息"
+        },
+        {
+          "id": 4,
+          "path": "/2",
+          "icon": "el-icon-menu",
+          "comment": "论著基本信息"
+        },
+        {
+          "id": 5,
+          "path": "/2",
+          "icon": "el-icon-menu",
+          "comment": "科研项目基本信息"
+        },
+        {
+          "id": 6,
+          "path": "/2",
+          "icon": "el-icon-menu",
+          "comment": "科研项目成果基本信息"
+        },
+        {
+          "id": 7,
+          "path": "/2",
+          "icon": "el-icon-menu",
+          "comment": "科研项目获奖情况"
+        },
+        {
+          "id": 8,
+          "path": "/2",
+          "icon": "el-icon-menu",
+          "comment": "专利基本信息"
+        },
+        {
+          "id": 9,
+          "path": "/2",
+          "icon": "el-icon-menu",
+          "comment": "奖励基本信息"
+        },
       ]
     }
   },
