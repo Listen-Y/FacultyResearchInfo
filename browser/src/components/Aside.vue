@@ -28,13 +28,13 @@ export default {
         },
         {
           "id": 2,
-          "path": "/2",
+          "path": "/teacher",
           "icon": "el-icon-menu",
           "comment": "教师基本信息"
         },
         {
           "id": 3,
-          "path": "/2",
+          "path": "/job",
           "icon": "el-icon-menu",
           "comment": "职务基本信息"
         },

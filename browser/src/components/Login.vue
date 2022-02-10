@@ -61,7 +61,7 @@
                                     type: "success",
                                     message: "登录成功"
                                 })
-                                sessionStorage.setItem("user", JSON.stringify(res.data))  // 缓存用户信息
+                                sessionStorage.setItem("user", res.data)  // 缓存用户信息
 
                                 // 登录成功的时候更新当前路由
                                 this.$router.push("/home")  //登录成功之后进行页面的跳转，跳转到主页

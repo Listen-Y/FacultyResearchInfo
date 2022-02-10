@@ -2,6 +2,8 @@ import {createRouter, createWebHistory} from 'vue-router'
 import Login from "../components/Login";
 import Home from "../components/Home";
 import Demo from "../components/Demo";
+import Teacher from "../components/Teacher";
+import Job from "../components/Job";
 
 const routes = [
   {
@@ -30,6 +32,20 @@ const routes = [
         component: Demo,
         meta: {
           title: 'Demo'
+        }
+      },
+      {
+        path: '/teacher',
+        component: Teacher,
+        meta: {
+          title: 'Teacher'
+        }
+      },
+      {
+        path: '/job',
+        component: Job,
+        meta: {
+          title: 'Job'
         }
       }
     ]
