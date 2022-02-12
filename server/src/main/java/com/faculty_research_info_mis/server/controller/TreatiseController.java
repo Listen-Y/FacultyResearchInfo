@@ -1,14 +1,25 @@
 package com.faculty_research_info_mis.server.controller;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.faculty_research_info_mis.server.component.Result;
+import com.faculty_research_info_mis.server.model.JobBasicInfo;
+import com.faculty_research_info_mis.server.model.TeacherBasicInfo;
 import com.faculty_research_info_mis.server.model.TreatiseBasicInfo;
+import com.faculty_research_info_mis.server.service.TeacherBasicInfoService;
 import com.faculty_research_info_mis.server.service.TreatiseBasicInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,6 +37,12 @@ public class TreatiseController {
     public TreatiseController(TreatiseBasicInfoService service) {
         this.service = service;
     }
+
+    @Autowired
+    private TeacherBasicInfoService teacherBasicInfoService;
+    private static final Log log = LogFactory.get();
+
+
 
     /**
      * 添加论著信息
@@ -97,11 +114,32 @@ public class TreatiseController {
     public Result<?> getLikePage(@RequestParam(defaultValue = "1") Integer pageNum,
                                  @RequestParam(defaultValue = "10") Integer pageSize,
                                  @RequestParam(defaultValue = "") String search) {
+        if (StringUtils.isBlank(search)) {
+            LambdaQueryWrapper<TeacherBasicInfo> wrapper = Wrappers.lambdaQuery();
+            Page<TeacherBasicInfo> selectPage = teacherBasicInfoService.teacherBasicInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
+            return Result.success(selectPage);
+        }
+        log.info(search);
         LambdaQueryWrapper<TreatiseBasicInfo> wrapper = Wrappers.lambdaQuery();
         if (StrUtil.isNotBlank(search)) {
-            wrapper.like(TreatiseBasicInfo::getName, search);
+            wrapper.eq(TreatiseBasicInfo::getType, search);
         }
-        Page<TreatiseBasicInfo> BookPage = service.treatiseBasicInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
-        return Result.success(BookPage);
+        Page<TreatiseBasicInfo> page = service.treatiseBasicInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
+        List<TreatiseBasicInfo> records = page.getRecords();
+
+        log.info(records.toString());
+
+        Page<TeacherBasicInfo> teacherBasicInfoPage = new Page<>();
+        Set<TeacherBasicInfo> set = new HashSet<>();
+        if (!records.isEmpty()) {
+            for( TreatiseBasicInfo treatiseBasicInfo : records) {
+                set.add(teacherBasicInfoService.teacherBasicInfoMapper.selectById(treatiseBasicInfo.getTeacherId()));
+            }
+        }
+        teacherBasicInfoPage.setRecords(new ArrayList<>(set));
+        teacherBasicInfoPage.setTotal(set.size());
+
+        log.info(teacherBasicInfoPage.getRecords().toString());
+        return Result.success(teacherBasicInfoPage);
     }
 }

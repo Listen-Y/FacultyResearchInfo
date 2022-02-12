@@ -11,6 +11,8 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+
 /**
  * Created with IntelliJ IDEA.
  * Description: If you don't work hard, you will be a loser.
@@ -35,6 +37,8 @@ public class TeacherController {
      */
     @PostMapping("/add")
     public Result<?> addTeacher(@RequestBody TeacherBasicInfo teacherBasicInfo) {
+        teacherBasicInfo.setCreateDate(new Date(System.currentTimeMillis()));
+        teacherBasicInfo.setUpdateDate(new Date(System.currentTimeMillis()));
         service.teacherBasicInfoMapper.insert(teacherBasicInfo);
         return Result.success();
     }
