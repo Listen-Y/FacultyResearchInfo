@@ -4,6 +4,7 @@ import Home from "../components/Home";
 import Demo from "../components/Demo";
 import Teacher from "../components/Teacher";
 import Job from "../components/Job";
+import Treatise from "../components/Treatise";
 
 const routes = [
   {
@@ -39,6 +40,13 @@ const routes = [
         component: Teacher,
         meta: {
           title: 'Teacher'
+        }
+      },
+      {
+        path: '/treatise',
+        component: Treatise,
+        meta: {
+          title: 'Treatise'
         }
       },
       {

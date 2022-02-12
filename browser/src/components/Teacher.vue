@@ -50,11 +50,11 @@
             </el-table-column>
             <el-table-column label="操作">
                 <template #default="scope">
-                    <el-button size="mini" type="primary" @click="getFullInfo(scope.row)">更多信息</el-button>
-                    <el-button size="mini" type="success" @click="handleEdit(scope.row)">编辑</el-button>
+                    <el-button size="mini" type="primary" plain @click="getFullInfo(scope.row)">更多信息</el-button>
+                    <el-button size="mini" type="success" plain @click="handleEdit(scope.row)">编辑</el-button>
                     <el-popconfirm title="确定删除吗？" @confirm="handleDelete(scope.row.id)">
                         <template #reference>
-                            <el-button size="mini" type="danger">删除</el-button>
+                            <el-button size="mini" plain type="danger">删除</el-button>
                         </template>
                     </el-popconfirm>
                 </template>

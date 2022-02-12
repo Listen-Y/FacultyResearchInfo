@@ -40,7 +40,7 @@ export default {
         },
         {
           "id": 4,
-          "path": "/2",
+          "path": "/treatise",
           "icon": "el-icon-menu",
           "comment": "论著基本信息"
         },
