@@ -37,7 +37,7 @@ class ServerApplicationTests {
     void rewardBasicInfoMapperTest() {
         RewardBasicInfo rewardBasicInfo = new RewardBasicInfo();
         rewardBasicInfo.setId(1);
-        rewardBasicInfo.setProject_name("1");
+        rewardBasicInfo.setProjectName("1");
         rewardBasicInfo.setLevel("2");
         rewardBasicInfo.setType("2");
         rewardBasicInfo.setWay("2");

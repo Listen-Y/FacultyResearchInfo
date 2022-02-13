@@ -16,6 +16,7 @@ import com.faculty_research_info_mis.server.service.TreatiseBasicInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -51,6 +52,8 @@ public class TreatiseController {
      */
     @PostMapping("/add")
     public Result<?> addTreatiseInfo(@RequestBody TreatiseBasicInfo treatiseBasicInfo) {
+        treatiseBasicInfo.setCreateDate(new Date(System.currentTimeMillis()));
+        treatiseBasicInfo.setUpdateDate(new Date(System.currentTimeMillis()));
         service.treatiseBasicInfoMapper.insert(treatiseBasicInfo);
         return Result.success();
     }
@@ -141,5 +144,27 @@ public class TreatiseController {
 
         log.info(teacherBasicInfoPage.getRecords().toString());
         return Result.success(teacherBasicInfoPage);
+    }
+
+    /**
+     * 查询指定老师的论著
+     * @param pageNum
+     * @param pageSize
+     * @param id
+     * @return
+     */
+    @GetMapping("/teacher_id/{id}")
+    public Result<?> getTeacherJobPage(@RequestParam(defaultValue = "1") Integer pageNum,
+                                       @RequestParam(defaultValue = "10") Integer pageSize,
+                                       @PathVariable Integer id) {
+
+        log.info(String.valueOf(id));
+
+        LambdaQueryWrapper<TreatiseBasicInfo> wrapper = Wrappers.lambdaQuery();
+
+        wrapper.eq(TreatiseBasicInfo::getTeacherId, id);
+
+        Page<TreatiseBasicInfo> BookPage = service.treatiseBasicInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
+        return Result.success(BookPage);
     }
 }

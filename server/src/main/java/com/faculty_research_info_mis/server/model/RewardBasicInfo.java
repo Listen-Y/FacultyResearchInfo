@@ -27,7 +27,7 @@ public class RewardBasicInfo {
     /**
      *获奖项目
      */
-    private String project_name;
+    private String projectName;
 
     /**
      *奖励级别
@@ -60,7 +60,7 @@ public class RewardBasicInfo {
     private Date date;
 
     /**
-     *荣誉称号码
+     *荣誉称号
      */
     private String honoraryTitle;
 
