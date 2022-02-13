@@ -61,6 +61,7 @@
                                     type: "success",
                                     message: "登录成功"
                                 })
+                                sessionStorage.setItem("username", this.form.userName)
                                 sessionStorage.setItem("user", res.data)  // 缓存用户信息
 
                                 // 登录成功的时候更新当前路由

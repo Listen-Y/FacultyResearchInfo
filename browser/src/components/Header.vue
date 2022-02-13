@@ -13,9 +13,8 @@
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="$router.push('/person')">个人信息</el-dropdown-item>
             <el-dropdown-item @click="$router.push('/password')">修改密码</el-dropdown-item>
-            <el-dropdown-item @click="$router.push('/login')">退出系统</el-dropdown-item>
+            <el-dropdown-item @click="signOut">退出系统</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -28,10 +27,23 @@ export default {
   name: "Header",
   data() {
     return {
-      username: 'aaa'
+      username: ''
     }
   },
+
+   methods: {
+       signOut() {
+           sessionStorage.removeItem("user")  // 清除缓存用户信息
+           this.$message({
+               type: "success",
+               message: "欢迎下次光临"
+           })
+           this.$router.push("/login")
+       }
+   },
   created() {
+      this.username = sessionStorage.getItem("username")
+      console.log(this.username)
   }
 }
 </script>

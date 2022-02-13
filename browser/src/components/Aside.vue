@@ -64,13 +64,13 @@ export default {
         },
         {
           "id": 8,
-          "path": "/2",
+          "path": "/patent",
           "icon": "el-icon-menu",
           "comment": "专利基本信息"
         },
         {
           "id": 9,
-          "path": "/2",
+          "path": "/reward",
           "icon": "el-icon-menu",
           "comment": "奖励基本信息"
         },

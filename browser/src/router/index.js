@@ -5,6 +5,8 @@ import Demo from "../components/Demo";
 import Teacher from "../components/Teacher";
 import Job from "../components/Job";
 import Treatise from "../components/Treatise";
+import Patent from "../components/Patent";
+import Reward from "../components/Reward";
 
 const routes = [
   {
@@ -47,6 +49,20 @@ const routes = [
         component: Treatise,
         meta: {
           title: 'Treatise'
+        }
+      },
+      {
+        path: '/patent',
+        component: Patent,
+        meta: {
+          title: 'patent'
+        }
+      },
+      {
+        path: '/reward',
+        component: Reward,
+        meta: {
+          title: 'Reward'
         }
       },
       {
