@@ -46,7 +46,7 @@ export default {
         },
         {
           "id": 5,
-          "path": "/2",
+          "path": "/project",
           "icon": "el-icon-menu",
           "comment": "科研项目基本信息"
         },

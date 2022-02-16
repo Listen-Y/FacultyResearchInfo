@@ -7,6 +7,7 @@ import Job from "../components/Job";
 import Treatise from "../components/Treatise";
 import Patent from "../components/Patent";
 import Reward from "../components/Reward";
+import Project from "../components/Project";
 
 const routes = [
   {
@@ -63,6 +64,13 @@ const routes = [
         component: Reward,
         meta: {
           title: 'Reward'
+        }
+      },
+      {
+        path: '/project',
+        component: Project,
+        meta: {
+          title: 'Project'
         }
       },
       {
