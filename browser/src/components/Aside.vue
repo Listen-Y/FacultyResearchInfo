@@ -52,7 +52,7 @@ export default {
         },
         {
           "id": 6,
-          "path": "/2",
+          "path": "/projectAchievement",
           "icon": "el-icon-menu",
           "comment": "科研项目成果基本信息"
         },

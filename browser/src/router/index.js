@@ -8,6 +8,7 @@ import Treatise from "../components/Treatise";
 import Patent from "../components/Patent";
 import Reward from "../components/Reward";
 import Project from "../components/Project";
+import ProjectAchievement from "../components/ProjectAchievement";
 
 const routes = [
   {
@@ -71,6 +72,13 @@ const routes = [
         component: Project,
         meta: {
           title: 'Project'
+        }
+      },
+      {
+        path: '/projectAchievement',
+        component: ProjectAchievement,
+        meta: {
+          title: 'ProjectAchievement'
         }
       },
       {
