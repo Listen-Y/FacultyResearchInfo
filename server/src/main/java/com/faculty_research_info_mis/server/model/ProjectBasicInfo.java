@@ -77,7 +77,7 @@ public class ProjectBasicInfo {
     /**
      *鉴定结论
      */
-    private String IdentificationConclusion;
+    private String identificationConclusion;
 
     /**
      *鉴定单位

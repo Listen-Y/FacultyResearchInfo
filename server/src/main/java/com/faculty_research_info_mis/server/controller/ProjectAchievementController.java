@@ -1,15 +1,27 @@
 package com.faculty_research_info_mis.server.controller;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.faculty_research_info_mis.server.component.Result;
 import com.faculty_research_info_mis.server.model.ProjectAchievementInfo;
 import com.faculty_research_info_mis.server.model.ProjectBasicInfo;
+import com.faculty_research_info_mis.server.model.TeacherBasicInfo;
+import com.faculty_research_info_mis.server.model.TreatiseBasicInfo;
 import com.faculty_research_info_mis.server.service.ProjectAchievementInfoService;
+import com.faculty_research_info_mis.server.service.ProjectBasicInfoService;
+import com.faculty_research_info_mis.server.service.TeacherBasicInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,6 +41,11 @@ public class ProjectAchievementController {
         this.service = service;
     }
 
+
+    @Autowired
+    private ProjectBasicInfoService projectBasicInfoService;
+    private static final Log log = LogFactory.get();
+
     /**
      * 添加projectAchievement信息
      * @param projectAchievementInfo
@@ -36,6 +53,8 @@ public class ProjectAchievementController {
      */
     @PostMapping("/add")
     public Result<?> addProjectAchievementInfo(@RequestBody ProjectAchievementInfo projectAchievementInfo) {
+        projectAchievementInfo.setCreateDate(new Date(System.currentTimeMillis()));
+        projectAchievementInfo.setUpdateDate(new Date(System.currentTimeMillis()));
         service.projectAchievementInfoMapper.insert(projectAchievementInfo);
         return Result.success();
     }
@@ -101,8 +120,46 @@ public class ProjectAchievementController {
                                  @RequestParam(defaultValue = "") String search) {
         LambdaQueryWrapper<ProjectAchievementInfo> wrapper = Wrappers.lambdaQuery();
         if (StrUtil.isNotBlank(search)) {
-            wrapper.like(ProjectAchievementInfo::getName, search);
+            wrapper.eq(ProjectAchievementInfo::getType, search);
         }
+        Page<ProjectAchievementInfo> BookPage = service.projectAchievementInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
+
+        List<ProjectAchievementInfo> records = BookPage.getRecords();
+
+        log.info(records.toString());
+
+        Page<ProjectBasicInfo> projectBasicInfoPage = new Page<>();
+        Set<ProjectBasicInfo> set = new HashSet<>();
+        if (!records.isEmpty()) {
+            for( ProjectAchievementInfo projectAchievementInfo : records) {
+                set.add(projectBasicInfoService.projectBasicInfoMapper.selectById(projectAchievementInfo.getProjectId()));
+            }
+        }
+        projectBasicInfoPage.setRecords(new ArrayList<>(set));
+        projectBasicInfoPage.setTotal(set.size());
+
+        log.info(projectBasicInfoPage.getRecords().toString());
+        return Result.success(projectBasicInfoPage);
+    }
+
+    /**
+     * 查询指定项目的成果
+     * @param pageNum
+     * @param pageSize
+     * @param id
+     * @return
+     */
+    @GetMapping("/project_id/{id}")
+    public Result<?> getTeacherJobPage(@RequestParam(defaultValue = "1") Integer pageNum,
+                                       @RequestParam(defaultValue = "10") Integer pageSize,
+                                       @PathVariable Integer id) {
+
+        log.info(String.valueOf(id));
+
+        LambdaQueryWrapper<ProjectAchievementInfo> wrapper = Wrappers.lambdaQuery();
+
+        wrapper.eq(ProjectAchievementInfo::getProjectId, id);
+
         Page<ProjectAchievementInfo> BookPage = service.projectAchievementInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
         return Result.success(BookPage);
     }
