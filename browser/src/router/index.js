@@ -9,6 +9,7 @@ import Patent from "../components/Patent";
 import Reward from "../components/Reward";
 import Project from "../components/Project";
 import ProjectAchievement from "../components/ProjectAchievement";
+import ProjectAward from "../components/ProjectAward";
 
 const routes = [
   {
@@ -79,6 +80,13 @@ const routes = [
         component: ProjectAchievement,
         meta: {
           title: 'ProjectAchievement'
+        }
+      },
+      {
+        path: '/projectAward',
+        component: ProjectAward,
+        meta: {
+          title: 'ProjectAward'
         }
       },
       {

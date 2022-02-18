@@ -50,10 +50,15 @@
                     prop="email"
                     label="电子邮箱">
             </el-table-column>
+            <el-table-column
+                    width="180"
+                    prop="fileNumber"
+                    label="档案编号">
+            </el-table-column>
             <el-table-column label="操作">
                 <template #default="scope">
-                    <el-button size="mini" type="success" plain @click="getFullInfo(scope.row.id)">查看其专业技术证明</el-button>
-                    <el-button size="mini" type="primary" plain @click="addBefore(scope.row.id)">添加专业技术证明</el-button>
+                    <el-button size="mini" type="success" plain @click="getFullInfo(scope.row.id)">查看技术证明</el-button>
+                    <el-button size="mini" type="primary" plain @click="addBefore(scope.row.id)">添加技术证明</el-button>
                 </template>
             </el-table-column>
         </el-table>

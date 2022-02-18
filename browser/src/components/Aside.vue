@@ -58,7 +58,7 @@ export default {
         },
         {
           "id": 7,
-          "path": "/2",
+          "path": "/projectAward",
           "icon": "el-icon-menu",
           "comment": "科研项目获奖情况"
         },
