@@ -22,7 +22,7 @@ export default {
       items: [
         {
           "id": 1,
-          "path": "/1",
+          "path": "/user",
           "icon": "el-icon-menu",
           "comment": "用户权限管理"
         },

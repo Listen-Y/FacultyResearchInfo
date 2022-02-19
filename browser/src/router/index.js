@@ -10,6 +10,7 @@ import Reward from "../components/Reward";
 import Project from "../components/Project";
 import ProjectAchievement from "../components/ProjectAchievement";
 import ProjectAward from "../components/ProjectAward";
+import User from "../components/User";
 
 const routes = [
   {
@@ -87,6 +88,13 @@ const routes = [
         component: ProjectAward,
         meta: {
           title: 'ProjectAward'
+        }
+      },
+      {
+        path: '/user',
+        component: User,
+        meta: {
+          title: 'User'
         }
       },
       {
