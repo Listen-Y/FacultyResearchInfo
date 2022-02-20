@@ -11,6 +11,7 @@ import Project from "../components/Project";
 import ProjectAchievement from "../components/ProjectAchievement";
 import ProjectAward from "../components/ProjectAward";
 import User from "../components/User";
+import Register from "../components/Register";
 
 const routes = [
   {
@@ -24,6 +25,14 @@ const routes = [
     component: Login,
     meta: {
       title: '登陆'
+    }
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    meta: {
+      title: '注册'
     }
   },
   {
