@@ -300,13 +300,8 @@
                     }
                 })
                 this.dialogVisibleEdit = false  // 关闭弹窗
-                // 刷新表格的数据
-                this.loadingShowJob = true
-                request.get("/patent/teacher_id/" + this.teacherId, {
-                }).then(res => {
-                    this.jobData = res.data.records
-                    this.loadingShowJob = false
-                })
+
+                this.reflash()
             },
             getFullInfo(id) {
                 this.teacherId = id
@@ -335,6 +330,10 @@
                         })
                     }
                 })
+
+                this.reflash()
+            },
+            reflash() {
                 // 删除之后重新加载表格的数据
                 this.loadingShowJob = true
                 request.get("/patent/teacher_id/" + this.teacherId, {

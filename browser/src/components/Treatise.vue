@@ -105,10 +105,10 @@
         <!--add-->
         <el-dialog title="添加论著条目" v-model="dialogVisibleAdd" width="40%" :before-close="handleClose">
             <el-form :model="form" :rules="rules">
-                <el-form-item label="论著名称" prop="reviewUnit">
+                <el-form-item label="论著名称" prop="name">
                     <el-input v-model="form.name" style="width: 80%"></el-input>
                 </el-form-item>
-                <el-form-item label="论著类别" prop="qualificationName">
+                <el-form-item label="论著类别" prop="type">
                     <el-cascader
                             placeholder="请选择论著类别"
                             :options="options"
@@ -118,8 +118,8 @@
                     >
                     </el-cascader>
                 </el-form-item>
-                <el-form-item label="论著发表方式" prop="accessQualification">
-                    <el-select v-model="form.way" placeholder="请选择活动区域">
+                <el-form-item label="论著发表方式" prop="way">
+                    <el-select v-model="form.way" placeholder="请选择">
                         <el-option label="出版发行" value="出版发行"></el-option>
                         <el-option label="报刊杂志发表" value="报刊杂志发表"></el-option>
                         <el-option label="资料汇编" value="资料汇编"></el-option>
@@ -130,17 +130,17 @@
                         <el-option label="其他" value="其他"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="论著出处" prop="evaluationDate">
+                <el-form-item label="论著出处" prop="origin">
                     <el-input v-model="form.origin" style="width: 80%"></el-input>
                 </el-form-item>
-                <el-form-item label="出版物号" prop="appointment">
+                <el-form-item label="出版物号" prop="publicationNumber">
                     <el-input v-model="form.publicationNumber" style="width: 80%"></el-input>
                 </el-form-item>
-                <el-form-item label="发表年月" prop="employingUnit">
+                <el-form-item label="发表年月" prop="date">
                     <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 50%;"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="论著角色" prop="dateAppointment">
-                    <el-select v-model="form.role" placeholder="请选择活动区域">
+                <el-form-item label="论著角色" prop="role">
+                    <el-select v-model="form.role" placeholder="请选择">
                         <el-option label="独立完成" value="独立完成"></el-option>
                         <el-option label="项目主持人" value="项目主持人"></el-option>
                         <el-option label="项目主要负责人" value="项目主要负责人"></el-option>
@@ -172,10 +172,10 @@
         <!--编辑-->
         <el-dialog title="编辑论著条目" v-model="dialogVisibleEdit" width="40%" :before-close="handleClose">
             <el-form :model="form" :rules="rules">
-                <el-form-item label="论著名称" prop="reviewUnit">
+                <el-form-item label="论著名称" prop="name">
                     <el-input v-model="form.name" style="width: 80%"></el-input>
                 </el-form-item>
-                <el-form-item label="论著类别" prop="qualificationName">
+                <el-form-item label="论著类别" prop="type">
                     <el-cascader
                             placeholder="请选择论著类别"
                             :options="options"
@@ -185,7 +185,7 @@
                     >
                     </el-cascader>
                 </el-form-item>
-                <el-form-item label="论著发表方式" prop="accessQualification">
+                <el-form-item label="论著发表方式" prop="way">
                     <el-select v-model="form.way" placeholder="请选择活动区域">
                         <el-option label="出版发行" value="出版发行"></el-option>
                         <el-option label="报刊杂志发表" value="报刊杂志发表"></el-option>
@@ -197,16 +197,16 @@
                         <el-option label="其他" value="其他"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="论著出处" prop="evaluationDate">
+                <el-form-item label="论著出处" prop="origin">
                     <el-input v-model="form.origin" style="width: 80%"></el-input>
                 </el-form-item>
-                <el-form-item label="出版物号" prop="appointment">
+                <el-form-item label="出版物号" prop="publicationNumber">
                     <el-input v-model="form.publicationNumber" style="width: 80%"></el-input>
                 </el-form-item>
-                <el-form-item label="发表年月" prop="employingUnit">
+                <el-form-item label="发表年月" prop="date">
                     <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 50%;"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="论著角色" prop="dateAppointment">
+                <el-form-item label="论著角色" prop="role">
                     <el-select v-model="form.role" placeholder="请选择活动区域">
                         <el-option label="独立完成" value="独立完成"></el-option>
                         <el-option label="项目主持人" value="项目主持人"></el-option>
@@ -355,13 +355,8 @@
                     }
                 })
                 this.dialogVisibleEdit = false  // 关闭弹窗
-                // 刷新表格的数据
-                this.loadingShowJob = true
-                request.get("/treatise/teacher_id/" + this.teacherId, {
-                }).then(res => {
-                    this.jobData = res.data.records
-                    this.loadingShowJob = false
-                })
+
+                this.reflash()
             },
             getFullInfo(id) {
                 this.teacherId = id
@@ -390,6 +385,10 @@
                         })
                     }
                 })
+
+                this.reflash()
+            },
+            reflash() {
                 // 删除之后重新加载表格的数据
                 this.loadingShowJob = true
                 request.get("/treatise/teacher_id/" + this.teacherId, {
@@ -564,7 +563,7 @@
                         { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
                     ],
                     role: [
-                        { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+                        { required: true, message: '请输入', trigger: 'blur' },
                     ]
                 },
             }
