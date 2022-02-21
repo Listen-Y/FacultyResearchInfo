@@ -64,8 +64,10 @@ public class ProjectController {
      */
     @DeleteMapping("/{id}")
     public Result<?> deleteProject(@PathVariable Integer id) {
-        // TODO: 2022/1/30 删除系列
-        service.projectBasicInfoMapper.deleteById(id);
+        // 删除project需要删除其对应的成果和奖励
+        if (service.deleteAchievementAndAward(id)) {
+            service.projectBasicInfoMapper.deleteById(id);
+        }
         return Result.success();
     }
 

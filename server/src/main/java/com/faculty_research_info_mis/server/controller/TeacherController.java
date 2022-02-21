@@ -50,8 +50,10 @@ public class TeacherController {
      */
     @DeleteMapping("/{id}")
     public Result<?> deleteTeacher(@PathVariable Integer id) {
-        // TODO: 2022/1/30 删除系列
-        service.teacherBasicInfoMapper.deleteById(id);
+        // 需要删除其下所有内容
+        if (service.deleteTeacherAll(id)) {
+            service.teacherBasicInfoMapper.deleteById(id);
+        }
         return Result.success();
     }
 
