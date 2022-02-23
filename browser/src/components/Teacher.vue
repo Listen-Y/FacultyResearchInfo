@@ -74,16 +74,23 @@
         </div>
 
         <!--添加-->
-        <el-dialog title="教师基本信息" v-model="dialogVisible" width="50%">
+        <el-dialog title="教师基本信息" @close='closeDialog' v-model="dialogVisible" width="50%">
             <el-upload class="upload-demo"
+                       ref="photo"
+                       :before-upload="beforeAvatarUpload"
+                       :on-exceed="handleExceed"
+                       :on-remove="handleRemove"
+                       :on-change="rememberName"
                        multiple
                        :limit="1"
+                       list-type="picture"
+                       :auto-upload="false"
                        :http-request="myUpload"
                        :file-list="fileList">
-                <el-button size="small" type="primary">上传图片</el-button>
-<!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                <el-button size="small" type="primary">上传照片</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2MB</div>
             </el-upload>
-            <el-form :model="form" :rules="rules" label-width="120px">
+            <el-form ref="formAddOrSave" :model="form" :rules="rules" label-width="120px">
                 <el-form-item label="职工号" prop="teacherId">
                     <el-input v-model="form.teacherId" style="width: 80%"></el-input>
                 </el-form-item>
@@ -300,6 +307,12 @@
 
         <el-dialog title="教职工完整信息" v-model="dialogVisibleReadOnly" width="70%">
             <el-descriptions border>
+                <el-descriptions-item label="照片" width="100px">
+                    <el-image
+                            style="width: 100px; height: 100px"
+                            :src="src"
+                    ></el-image>
+                </el-descriptions-item>
                 <el-descriptions-item label="职工号">{{form.teacherId}}</el-descriptions-item>
                 <el-descriptions-item label="姓名">{{form.name}}</el-descriptions-item>
                 <el-descriptions-item label="姓名拼音">{{form.englishName}}</el-descriptions-item>
@@ -329,7 +342,6 @@
                 <el-descriptions-item label="任课状况">{{form.teachingStatus}}</el-descriptions-item>
                 <el-descriptions-item label="档案编号">{{form.fileNumber}}</el-descriptions-item>
                 <el-descriptions-item label="档案文本">{{form.fileText}}</el-descriptions-item>
-                <el-descriptions-item label="照片">{{form.photoUrl}}</el-descriptions-item>
                 <el-descriptions-item label="通信地址">{{form.mailingAddress}}</el-descriptions-item>
                 <el-descriptions-item label="联系电话">{{form.phone}}</el-descriptions-item>
                 <el-descriptions-item label="邮政编码">{{form.postalCode}}</el-descriptions-item>
@@ -358,11 +370,48 @@
         data() {
             return {
                 fileList: [],
-                headers: {
-                    token: sessionStorage.getItem('user')
-                },
+                photoName: '',
                 loading: true,
-                form: {},
+                form: {
+                    teacherId: "0000",
+                    name: "8678",
+                    src: '',
+                    englishName: "76",
+                    oldName: "876",
+                    idCard: "8678",
+                    birthday: "2022-01-31",
+                    sex: "女",
+                    nation: "8678",
+                    healthy: "良",
+                    blood: "B",
+                    belief: "678",
+                    overseas: "外籍华人",
+                    marital: "未婚",
+                    nativePlace: "678",
+                    birthPlace: "678",
+                    familyOrigin: "工人",
+                    composition: "工人",
+                    homeAddress: "678",
+                    currentAddress: "76",
+                    registeredResidence: "87",
+                    accountNature: "农业户口",
+                    educationLevel: "高中",
+                    dateWork: "2022-01-31",
+                    dateWorkPark: "2022-01-31",
+                    teacherDate: "2022-02-23",
+                    facultyCategory: "兼任(职)教师",
+                    teachingStatus: "本年任课",
+                    fileNumber: "867",
+                    fileText: "86",
+                    mailingAddress: "678",
+                    phone: "76",
+                    postalCode: "67",
+                    email: "678",
+                    pageAddress: "67",
+                    specialty: "8",
+                    createDate: "2022-02-13",
+                    updateDate: "2022-02-13",
+                },
                 dialogVisible: false,
                 dialogVisibleReadOnly: false,
                 search: '',
@@ -459,9 +508,6 @@
                     fileText: [
                         { required: true, message: '请输入', trigger: 'blur' }
                     ],
-                    photoUrl: [
-                        { required: true, message: '请输入', trigger: 'blur' }
-                    ],
                     mailingAddress: [
                         { required: true, message: '请输入', trigger: 'blur' }
                     ],
@@ -516,54 +562,88 @@
             },
             add() {
                 this.dialogVisible = true
-                this.form = {}
+                this.form.id = ''
             },
             save() {
-
-                if (this.form.id) {  // 更新
-                    request.post("/teacher/update", this.form).then(res => {
-                        console.log(res)
-                        if (res.code === '0') {
-                            this.$message({
-                                type: "success",
-                                message: "更新成功"
+                console.log('开始save')
+                       if (this.photoName) {
+                            this.form.photoUrl = this.photoName;
+                        }
+                        console.log(this.form)
+                        if (this.form.id) {  // 更新
+                            request.post("/teacher/update", this.form).then(res => {
+                                console.log(res)
+                                if (res.code === '0') {
+                                    this.$message({
+                                        type: "success",
+                                        message: "更新成功"
+                                    })
+                                    // 保存照片
+                                    if (this.photoName) {
+                                        this.$refs['photo'].submit();
+                                    }
+                                } else {
+                                    this.$message({
+                                        type: "error",
+                                        message: res.msg
+                                    })
+                                }
+                                this.load() // 刷新表格的数据
+                                this.dialogVisible = false  // 关闭弹窗
                             })
-                        } else {
-                            this.$message({
-                                type: "error",
-                                message: res.msg
+                        } else {  // 新增
+                            request.post("/teacher/add", this.form).then(res => {
+                                console.log(res)
+                                if (res.code === '0') {
+                                    this.$message({
+                                        type: "success",
+                                        message: "新增成功"
+                                    })
+
+                                    // 保存照片
+                                    if (this.photoName) {
+                                        this.$refs['photo'].submit();
+                                    }
+
+                                    //保存档案
+
+                                } else {
+                                    this.$message({
+                                        type: "error",
+                                        message: res.msg
+                                    })
+                                }
+                                this.load() // 刷新表格的数据
+                                this.dialogVisible = false  // 关闭弹窗
                             })
                         }
-                        this.load() // 刷新表格的数据
-                        this.dialogVisible = false  // 关闭弹窗
-                    })
-                } else {  // 新增
-                    request.post("/teacher/add", this.form).then(res => {
-                        console.log(res)
-                        if (res.code === '0') {
-                            this.$message({
-                                type: "success",
-                                message: "新增成功"
-                            })
-                        } else {
-                            this.$message({
-                                type: "error",
-                                message: res.msg
-                            })
-                        }
-
-                        this.load() // 刷新表格的数据
-                        this.dialogVisible = false  // 关闭弹窗
-                    })
-                }
-
+                console.log('结束save')
             },
             handleEdit(row) {
+                this.photoName = '';
                 this.form = JSON.parse(JSON.stringify(row))
+                if (this.form.photoUrl) {
+                    let index = this.form.photoUrl.lastIndexOf('/');
+                    let photo_name = this.form.photoUrl.substring(index + 1);
+                    this.fileList = [
+                        {
+                            name: photo_name,
+                            url: 'http://127.0.0.1:9090/photo/' + photo_name
+                        }
+                    ];
+                    console.log(this.fileList)
+                }
                 this.dialogVisible = true
             },
             getFullInfo(row) {
                 this.form = JSON.parse(JSON.stringify(row))
+
+                if (this.form.photoUrl) {
+                    let index = this.form.photoUrl.lastIndexOf('/');
+                    let photo_name = this.form.photoUrl.substring(index + 1);
+                    this.src = 'http://127.0.0.1:9090/photo/' + photo_name
+                }
+
                 this.dialogVisibleReadOnly = true
             },
             handleDelete(id) {
@@ -592,27 +672,49 @@
                 this.load()
             },
             handleRemove(file) {
-                return this.$confirm(`确定移除 ${ file.name }？`);
-                console.log(file);
-            },
-            handlePictureCardPreview(file) {
-                this.dialogImageUrl = file.url;
-                this.dialogVisible = true;
-            },
-            handleDownload(file) {
+                this.photoName = '';
                 console.log(file);
             },
             myUpload(content) {
                 console.log("上传文件")
                 let formData = new FormData();
                 formData.append('file',content.file); // 'file[]' 代表数组 其中`file`是可变的
-                request.post('file/photo', formData).then(rs=>{
+                request.post('file/photo/' + this.form.teacherId + '_' + this.form.name, formData).then(rs=>{
                     this.$store.dispatch('GetInfo')
                 }).catch(err=>{
-                    this.$store.dispatch('LogMessage', "用户头像上传失败!")
+                    this.$store.dispatch('LogMessage', "用户照片上传失败!")
                     console.log(err)
                 })
             },
+            closeDialog() {
+                this.$refs['photo'].clearFiles();
+            },
+            beforeAvatarUpload(file) {
+                console.log(file.type)
+                const isJPG = file.type === 'image/jpeg';
+                const isPNG = file.type === 'image/png';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                    return false
+                }
+
+                if (isPNG || isJPG) {
+                    return true
+                }
+
+                this.$message.error('上传头像图片格式只支持JPEG/PNG!!');
+                return false
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 1 个文件，已经选择了 ${fileList[0].name}`);
+            },
+            rememberName(file, fileList) {
+                this.photoName = file.name;
+                console.log(this.photoName)
+                console.log(file)
+            }
         }
     }
 </script>
