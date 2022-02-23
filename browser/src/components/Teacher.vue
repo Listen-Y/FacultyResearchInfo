@@ -75,6 +75,14 @@
 
         <!--添加-->
         <el-dialog title="教师基本信息" v-model="dialogVisible" width="50%">
+            <el-upload class="upload-demo"
+                       multiple
+                       :limit="1"
+                       :http-request="myUpload"
+                       :file-list="fileList">
+                <el-button size="small" type="primary">上传图片</el-button>
+<!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+            </el-upload>
             <el-form :model="form" :rules="rules" label-width="120px">
                 <el-form-item label="职工号" prop="teacherId">
                     <el-input v-model="form.teacherId" style="width: 80%"></el-input>
@@ -263,9 +271,6 @@
                 <el-form-item label="档案文本" prop="fileText">
                     <el-input v-model="form.fileText" style="width: 80%"></el-input>
                 </el-form-item>
-                <el-form-item label="照片" prop="photoUrl">
-                    <el-input v-model="form.photoUrl" style="width: 80%"></el-input>
-                </el-form-item>
                 <el-form-item label="通信地址" prop="mailingAddress">
                     <el-input v-model="form.mailingAddress" style="width: 80%"></el-input>
                 </el-form-item>
@@ -352,6 +357,10 @@
         components: {},
         data() {
             return {
+                fileList: [],
+                headers: {
+                    token: sessionStorage.getItem('user')
+                },
                 loading: true,
                 form: {},
                 dialogVisible: false,
@@ -581,7 +590,29 @@
             handleCurrentChange(pageNum) {  // 改变当前页码触发
                 this.currentPage = pageNum
                 this.load()
-            }
+            },
+            handleRemove(file) {
+                return this.$confirm(`确定移除 ${ file.name }？`);
+                console.log(file);
+            },
+            handlePictureCardPreview(file) {
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
+            },
+            handleDownload(file) {
+                console.log(file);
+            },
+            myUpload(content) {
+                console.log("上传文件")
+                let formData = new FormData();
+                formData.append('file',content.file); // 'file[]' 代表数组 其中`file`是可变的
+                request.post('file/photo', formData).then(rs=>{
+                    this.$store.dispatch('GetInfo')
+                }).catch(err=>{
+                    this.$store.dispatch('LogMessage', "用户头像上传失败!")
+                    console.log(err)
+                })
+            },
         }
     }
 </script>
