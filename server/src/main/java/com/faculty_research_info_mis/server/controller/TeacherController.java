@@ -1,12 +1,16 @@
 package com.faculty_research_info_mis.server.controller;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.faculty_research_info_mis.server.component.Result;
 import com.faculty_research_info_mis.server.model.TeacherBasicInfo;
 import com.faculty_research_info_mis.server.service.TeacherBasicInfoService;
+import com.faculty_research_info_mis.server.util.FileUtil;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +34,10 @@ public class TeacherController {
         this.service = service;
     }
 
+
+    private static final Log log = LogFactory.get();
+
+
     /**
      * 添加教师
      * @param teacherBasicInfo
@@ -37,6 +45,10 @@ public class TeacherController {
      */
     @PostMapping("/add")
     public Result<?> addTeacher(@RequestBody TeacherBasicInfo teacherBasicInfo) {
+        if (StringUtils.isNotBlank(teacherBasicInfo.getPhotoUrl())) {
+            teacherBasicInfo.setPhotoUrl(FileUtil.PHOTO_FILE_PATH + teacherBasicInfo.getTeacherId() +"_" + teacherBasicInfo.getName() + "_" + teacherBasicInfo.getPhotoUrl());
+        }
+        log.info("photoUrl:" + teacherBasicInfo.getPhotoUrl());
         teacherBasicInfo.setCreateDate(new Date(System.currentTimeMillis()));
         teacherBasicInfo.setUpdateDate(new Date(System.currentTimeMillis()));
         service.teacherBasicInfoMapper.insert(teacherBasicInfo);
@@ -64,6 +76,9 @@ public class TeacherController {
      */
     @PostMapping("/update")
     public Result<?> update(@RequestBody TeacherBasicInfo teacherBasicInfo) {
+        if (StringUtils.isNotBlank(teacherBasicInfo.getPhotoUrl())) {
+            teacherBasicInfo.setPhotoUrl(FileUtil.PHOTO_FILE_PATH + teacherBasicInfo.getTeacherId() +"_" + teacherBasicInfo.getName() + "_" + teacherBasicInfo.getPhotoUrl());
+        }
         service.teacherBasicInfoMapper.updateById(teacherBasicInfo);
         return Result.success();
     }

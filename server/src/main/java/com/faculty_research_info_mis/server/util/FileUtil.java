@@ -23,17 +23,33 @@ import java.util.Objects;
  * Time: 21:27
  */
 public class FileUtil {
+
+    /**
+     * 照片的保存路径
+     */
+    public static final String PHOTO_FILE_PATH = "D:/faculty_research_info_MIS_file_path/photo/";
+
+    /**
+     * 档案的保存路径
+     */
+    public static final String ARCHIVES_FILE_PATH = "D:/faculty_research_info_MIS_file_path/archives/";
+
     /**
      * MultipartFile类型转File类型，文件名同被转换文件名称一致，如有需要可以拓展方法。
      */
-    public static File MultipartFileToFile(MultipartFile multipartFile) throws IOException {
+    public static File MultipartFileToFile(MultipartFile multipartFile, String fileName) throws IOException {
         if (multipartFile.isEmpty()) {
             return null;
         }
         // 获取InoutString
         InputStream inputStream = multipartFile.getInputStream();
         // 创建文件
-        File toFile = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        File toFile;
+        if (Objects.equals(multipartFile.getContentType(), "image/png") || Objects.equals(multipartFile.getContentType(), "image/jpeg")) {
+            toFile = new File(PHOTO_FILE_PATH + fileName +  "_" + Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        } else {
+            toFile = new File(ARCHIVES_FILE_PATH + fileName + "_" + Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        }
         // 写入文件
         OutputStream outputStream = new FileOutputStream(toFile);
         byte[] buffer = new byte[8192];
